@@ -17,7 +17,10 @@ public class ProducerController {
     @GetMapping("/publish/{message}")
     public ResponseEntity<String> produceMessage(@PathVariable String message) {
         try {
-            producerService.sendMessageToTopic(message);
+            for (int i = 0; i < 15000; i++) {
+                String msg = message + " - " + i;
+                producerService.sendMessageToTopic(msg);
+            }
             return ResponseEntity.ok().body("Message published successfully");
         } catch (Exception e){
             return ResponseEntity.internalServerError().body(e.getMessage());
