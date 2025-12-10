@@ -1,5 +1,6 @@
 package com.apache.kafka.sample.service;
 
+import com.apache.kafka.sample.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -29,6 +30,23 @@ public class ProducerService {
                 logger.info("Message sent successfully to topic: {}", result.getRecordMetadata().topic());
             } else {
                 logger.error("Failed to send message: {}", ex.getMessage());
+            }
+
+        });
+    }
+
+    /**
+     * This method sends Customer object to Kafka topic. This is for practise only
+     * @param customer Customer object to be sent to topic
+     */
+    public void sendCustomerToTopic(Customer customer){
+        CompletableFuture<SendResult<String, Object>> sampleTopic = template.send(topicName, customer);
+        sampleTopic.whenComplete((result, ex ) -> {
+            if (ex == null) {
+                logger.info("Customer object {} sent", customer);
+                logger.info("Customer sent successfully to topic: {}", result.getRecordMetadata().topic());
+            } else {
+                logger.error("Failed to send customer: {}", ex.getMessage());
             }
 
         });
