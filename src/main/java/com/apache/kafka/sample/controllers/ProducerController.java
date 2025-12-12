@@ -38,4 +38,14 @@ public class ProducerController {
         }
     }
 
+    @PostMapping("/publish/sample/{message}")
+    public ResponseEntity<String> produceSampleMessage(@PathVariable String message){
+        try {
+            producerService.sendSampleMessageToAnotherTopic(message);
+            return ResponseEntity.ok().body("Sample Message published successfully");
+        } catch (Exception e){
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
+
 }

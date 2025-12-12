@@ -22,11 +22,23 @@ public class KafkaTopicConfig {
     @Value("${kafka.topic.name}")
     private String topicName;
 
+    @Value("${kafka.another.topic.name}")
+    private String anotherTopicName;
+
     @Bean
     public NewTopic createTopic(){
         return TopicBuilder
                 .name(topicName)
                 .partitions(4)
+                .replicas(1)
+                .build();
+    }
+
+    @Bean
+    public NewTopic createAnotherTopic(){
+        return TopicBuilder
+                .name(anotherTopicName)
+                .partitions(5)
                 .replicas(1)
                 .build();
     }
